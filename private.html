@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuração do Barbeiro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-config {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #2d2d2d;
+            border-radius: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #3d3d3d;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .calendar-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #2d2d2d;
+            user-select: none;
+        }
+
+        .calendar-table th {
+            background: #c28f2c;
+            color: #fff;
+            padding: 15px;
+            min-width: 120px;
+        }
+
+        .calendar-table td {
+            padding: 2px;
+            border: 1px solid #3d3d3d;
+            text-align: center;
+            position: relative;
+        }
+
+        .time-slot {
+            background: #3d3d3d;
+            border: none;
+            color: #fff;
+            padding: 8px;
+            margin: 2px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 12px;
+        }
+
+        .time-slot.selected {
+            background: #a87a24;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn-salvar {
+            background: #c28f2c;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #a87a24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-config">
+            <div class="input-group">
+                <label>Nome:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="input-group">
+                <label>Foto:</label>
+                <input type="text" id="photo" required>
+            </div>
+			<div class="input-group">
+                <label>Whatsapp:</label>
+                <input type="text" id="whatsapp" required>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-salvar" onclick="salvarConfiguracao()">Salvar Configuração</button>
+        </div>
+
+        <div class="calendar-container" id="calendarContainer">
+            <table class="calendar-table" id="calendar">
+                <thead id="calendar-header"></thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="private.js"></script>
+</body>
+</html>

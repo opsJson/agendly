@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento - Barbearia Express</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #c28f2c;
+        }
+
+        .calendar-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #2d2d2d;
+            border-radius: 10px;
+        }
+
+        .calendar-table th {
+            background: #c28f2c;
+            color: #fff;
+            padding: 15px;
+            min-width: 150px;
+        }
+
+        .calendar-table td {
+            padding: 10px;
+            border: 1px solid #3d3d3d;
+            vertical-align: top;
+            height: 200px;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .time-btn {
+            background: #3d3d3d;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .time-btn:hover {
+            background: #c28f2c;
+        }
+
+        .selected-time {
+            background: #a87a24 !important;
+            border: 2px solid #fff;
+        }
+
+        .dados-cliente {
+            margin-top: 30px;
+            display: none;
+            text-align: center;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        input {
+            width: 300px;
+            padding: 12px;
+            border-radius: 25px;
+            border: none;
+            margin: 5px;
+            background: #2d2d2d;
+            color: #fff;
+        }
+
+        .confirmacao {
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .botao-confirmar {
+            background: #c28f2c;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .calendar-table th, 
+            .calendar-table td {
+                padding: 10px;
+                min-width: 120px;
+            }
+            
+            input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img id="photo">
+            <h1 id="name"></h1>
+        </div>
+
+        <div class="calendar-container">
+            <table class="calendar-table" id="calendar">
+                <thead id="calendar-header"></thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+
+        <div class="dados-cliente" id="dados-cliente">
+            <div class="input-group">
+                <input type="text" id="nome" placeholder="Seu nome">
+            </div>
+            <div class="input-group">
+                <input type="tel" id="whatsapp" placeholder="Seu WhatsApp (com DDD)">
+            </div>
+        </div>
+
+        <div class="confirmacao" id="confirmacao">
+            <p id="detalhes-agendamento"></p>
+            <button class="botao-confirmar" onclick="confirmarAgendamento()">Confirmar Agendamento</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

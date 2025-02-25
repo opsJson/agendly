@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbeiro Não Encontrado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            margin-bottom: 30px;
+        }
+
+        .error-container {
+            max-width: 600px;
+            padding: 30px;
+        }
+
+        .error-icon {
+            font-size: 80px;
+            color: #c28f2c;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: #c28f2c;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #888;
+        }
+
+        .btn-voltar {
+            background: #c28f2c;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-voltar:hover {
+            background: #a87a24;
+        }
+
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="caminho/para/logo.png" alt="Logo Barbearia" class="logo">
+    
+    <div class="error-container">
+        <div class="error-icon">!</div>
+        <h1>Barbeiro Não Encontrado</h1>
+        <p>O profissional que você está procurando não está disponível em nosso sistema ou o link pode estar incorreto.</p>
+        <p>Verifique o URL ou tente novamente mais tarde.</p>
+        <a href="index.html" class="btn-voltar">Voltar para a Página Inicial</a>
+    </div>
+
+    <!-- Ícone de alerta em SVG -->
+    <svg style="display: none;">
+        <symbol id="warning-icon" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+        </symbol>
+    </svg>
+</body>
+</html>

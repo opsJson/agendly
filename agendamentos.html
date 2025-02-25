@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos - Barbearia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .calendar-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #2d2d2d;
+        }
+
+        .calendar-table th {
+            background: #c28f2c;
+            color: #fff;
+            padding: 15px;
+            min-width: 120px;
+        }
+
+        .calendar-table td {
+            padding: 8px;
+            border: 1px solid #3d3d3d;
+            vertical-align: top;
+            height: 120px;
+        }
+
+        .agendamento {
+            background: #3d3d3d;
+            padding: 8px;
+            margin: 2px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .cliente-info {
+            margin-bottom: 4px;
+        }
+
+        .cliente-nome {
+            font-weight: bold;
+            color: #c28f2c;
+        }
+
+        .cliente-whatsapp {
+            color: #888;
+            font-size: 10px;
+        }
+
+        .sem-agendamentos {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px;">Agendamentos da Semana</h1>
+
+        <div class="calendar-container">
+            <table class="calendar-table" id="calendar">
+                <thead id="calendar-header"></thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        function gerarCalendario() {
+            const header = document.getElementById('calendar-header');
+            const body = document.getElementById('calendar-body');
+            const datasSemana = getDatasSemana();
+            
+            // Gerar cabeçalho com dias a partir de hoje
+            let headerRow = '<tr>';
+            datasSemana.forEach(data => {
+                headerRow += `<th>${data.toLocaleDateString('pt-br', { weekday: 'short' })}<br>${data.toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit'})}</th>`;
+            });
+            headerRow += '</tr>';
+            header.innerHTML = headerRow;
+
+            // Coletar todos os agendamentos
+            const todosAgendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
+            
+            // Organizar agendamentos por hora
+            const agendaOrganizada = organizarAgendamentos(todosAgendamentos, datasSemana);
+
+            // Gerar linhas apenas para horários com agendamentos
+            body.innerHTML = '';
+            agendaOrganizada.forEach(({ hora, agendamentosPorDia }) => {
+                const row = document.createElement('tr');
+                
+                datasSemana.forEach((data, index) => {
+                    const cell = document.createElement('td');
+                    const agendamentos = agendamentosPorDia[index] || [];
+                    
+                    agendamentos.forEach(agendamento => {
+                        const div = document.createElement('div');
+                        div.className = 'agendamento';
+                        div.innerHTML = `
+                            <div class="cliente-info">
+                                <div class="cliente-nome">${agendamento.nome}</div>
+                                <div class="cliente-whatsapp">${agendamento.whatsapp}</div>
+                            </div>
+                            <div class="horario">${hora}</div>
+                        `;
+                        cell.appendChild(div);
+                    });
+                    
+                    row.appendChild(cell);
+                });
+                
+                body.appendChild(row);
+            });
+        }
+
+
+        function getDatasSemana() {
+            const datas = [];
+            const hoje = new Date();
+            
+            for(let i = 0; i < 7; i++) {
+                const data = new Date(hoje);
+                data.setDate(hoje.getDate() + i);
+                datas.push(data);
+            }
+            
+            return datas;
+        }
+
+        function getAgendamentos(data, hora) {
+            // Recuperar agendamentos do localStorage
+            const agendamentos = JSON.parse(localStorage.getItem('agendamentos')) || [];
+            
+            return agendamentos.filter(ag => {
+                const agDate = new Date(ag.data);
+                return agDate.toDateString() === data.toDateString() && 
+                       ag.hora === hora;
+            });
+        }
+		
+        function gerarAgendamentosFicticios() {
+            const agendamentos = [];
+            const nomes = ['João Silva', 'Maria Souza', 'Pedro Costa', 'Ana Oliveira', 'Carlos Santos'];
+            const whatsapps = ['+55 (11) 98765-4321', '+55 (21) 99876-5432', '+55 (31) 98765-1234', '+55 (41) 91234-5678', '+55 (51) 93333-4444'];
+            
+            const datasSemana = getDatasSemana();
+            
+            // Gerar 2-3 agendamentos por dia
+            datasSemana.forEach(data => {
+                const horarios = ['09:00', '10:30', '14:00', '15:30', '17:00'];
+                const qtd = Math.floor(Math.random() * 3) + 1; // 1-3 agendamentos
+                
+                for(let i = 0; i < qtd; i++) {
+                    const randomNome = nomes[Math.floor(Math.random() * nomes.length)];
+                    const randomWhatsapp = whatsapps[Math.floor(Math.random() * whatsapps.length)];
+                    const randomHora = horarios.splice(Math.floor(Math.random() * horarios.length), 1)[0];
+                    
+                    agendamentos.push({
+                        nome: randomNome,
+                        whatsapp: randomWhatsapp,
+                        data: data.toISOString(),
+                        hora: randomHora
+                    });
+                }
+            });
+            
+            localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+        }
+		
+        function organizarAgendamentos(agendamentos, datasSemana) {
+            const agendaMap = new Map();
+            
+            agendamentos.forEach(ag => {
+                const dataAg = new Date(ag.data);
+                const hora = ag.hora;
+                
+                if (!agendaMap.has(hora)) {
+                    agendaMap.set(hora, new Array(7).fill(null));
+                }
+                
+                const diaIndex = datasSemana.findIndex(d => 
+                    d.toDateString() === dataAg.toDateString()
+                );
+                
+                if (diaIndex !== -1) {
+                    const arr = agendaMap.get(hora);
+                    if (!arr[diaIndex]) arr[diaIndex] = [];
+                    arr[diaIndex].push(ag);
+                }
+            });
+
+            return Array.from(agendaMap.entries())
+                .sort(([horaA], [horaB]) => horaA.localeCompare(horaB))
+                .map(([hora, agendamentosPorDia]) => ({
+                    hora,
+                    agendamentosPorDia
+                }));
+        }
+
+        // Inicializar
+        window.onload = () => {
+            gerarAgendamentosFicticios();
+            gerarCalendario();
+        };
+    </script>
+</body>
+</html>
