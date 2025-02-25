@@ -35,7 +35,7 @@ async function gerarCalendario() {
 	document.getElementById("calendar-header").innerHTML = `<tr>${ths.join("")}</tr>`;
 	
 	let btns = "";
-	for (const scheduleDay in r.availableSchedules) {
+	for (const scheduleDay of ordenarDatas(Object.keys(r.availableSchedules || {}))) {
 		btns += "<td><div class='time-slots'>";
 		for (const scheduleTime of r.availableSchedules[scheduleDay]) {
 			btns += `<button class="time-btn" 
